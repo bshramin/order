@@ -1,0 +1,15 @@
+.auth-page {
+  .auth-component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &.signup {
+    }
+    &.login {
+    }
+  }
+  .toggle-newuser {
+    margin-top: 10px;
+    cursor: pointer;
+  }
+}
