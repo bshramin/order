@@ -2,12 +2,6 @@ import axios from 'axios'
 import { USERS_COLLECTION_URL } from './consts'
 var md5 = require('md5')
 
-const getAllUsers = () => {
-  axios.get(USERS_COLLECTION_URL).then((res) => {
-    const users = res.data
-  })
-}
-
 const addNewUser = async (email: string, name: string, password: string) => {
   const email_exists = await getUserByEmail(email)
   if (email_exists) {
@@ -48,9 +42,4 @@ const getUserByEmailAndPassword = async (email: string, password: string) => {
   }
 }
 
-export default {
-  getAllUsers,
-  addNewUser,
-  getUserByEmail,
-  getUserByEmailAndPassword,
-}
+export default { addNewUser, getUserByEmail, getUserByEmailAndPassword }
