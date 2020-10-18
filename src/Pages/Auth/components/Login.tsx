@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { login } from '../../../redux/user/actions'
-import { getUserByEmailAndPassword } from '../../../api/users'
+import api from '../../../api'
 import { IUserStore } from '../../../redux/user/IStore'
 
 interface IRecipeProps {
-  login: (email: string, password: string, id: string) => void
+  login: (email: string, password: string, _id: string) => void
+  history: any
 }
 
 interface IRecipeState {
@@ -22,12 +23,15 @@ class Login extends React.Component<IRecipeProps, IRecipeState> {
 
   handleSignup = async () => {
     const { email, password } = this.state
-    const user: IUserStore = await getUserByEmailAndPassword(email, password)
+    const user: IUserStore = await api.users.getUserByEmailAndPassword(
+      email,
+      password
+    )
     if (user) {
       const { email, name, _id } = user
       this.props.login(email, name, _id)
+      this.props.history.replace('/dashboard')
     }
-    // TODO: Push to dashboard
   }
 
   render() {
@@ -35,15 +39,18 @@ class Login extends React.Component<IRecipeProps, IRecipeState> {
       <div className='auth-component login'>
         <div className='title'>Login</div>
         <input
+          placeholder='Email'
           onChange={(e) => this.setState({ email: e.target.value })}
           value={this.state.email}
         />
         <input
+          placeholder='Password'
+          type='password'
           onChange={(e) => this.setState({ password: e.target.value })}
           value={this.state.password}
         />
         <button className='signup-submit' onClick={this.handleSignup}>
-          Signup
+          Login
         </button>
       </div>
     )

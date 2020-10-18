@@ -3,12 +3,12 @@ import Login from './components/Login'
 import Signup from './components/Signup'
 import './style.scss'
 
-export default function Auth() {
+export default function Auth({ history }: { history: any }) {
   const [isNewUser, setIsNewUser] = useState(true)
 
   return (
     <div className='auth-page'>
-      {isNewUser ? <Signup /> : <Login />}
+      {isNewUser ? <Signup history={history} /> : <Login history={history} />}
       {isNewUser ? (
         <div className='toggle-newuser' onClick={() => setIsNewUser(false)}>
           Already a user? Login.

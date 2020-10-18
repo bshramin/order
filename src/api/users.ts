@@ -2,18 +2,18 @@ import axios from 'axios'
 import { USERS_COLLECTION_URL } from './consts'
 var md5 = require('md5')
 
-export const getAllUsers = () => {
+const getAllUsers = () => {
   axios.get(USERS_COLLECTION_URL).then((res) => {
     const users = res.data
-    console.log(users)
   })
 }
 
-export const addNewUser = async (
-  email: string,
-  name: string,
-  password: string
-) => {
+const addNewUser = async (email: string, name: string, password: string) => {
+  const email_exists = await getUserByEmail(email)
+  if (email_exists) {
+    return null
+  }
+
   const res = await axios.post(USERS_COLLECTION_URL, {
     email,
     name,
@@ -26,16 +26,31 @@ export const addNewUser = async (
   }
 }
 
-export const getUserByEmailAndPassword = async (
-  email: string,
-  password: string
-) => {
-  const res = await axios.get(
-    USERS_COLLECTION_URL + `?email=${email}&password=${md5(password)}`
+const getUserByEmail = async (email: string) => {
+  const { status, data } = await axios.get(
+    USERS_COLLECTION_URL + `?q=email:${email}`
   )
-  if (res.status === 200) {
-    return res.data
+  if (status === 200 && data.length >= 1) {
+    return data[0]
   } else {
     return null
   }
+}
+
+const getUserByEmailAndPassword = async (email: string, password: string) => {
+  const { status, data } = await axios.get(
+    USERS_COLLECTION_URL + `?q=email:${email},password:${md5(password)}`
+  )
+  if (status === 200 && data.length >= 1) {
+    return data[0]
+  } else {
+    return null
+  }
+}
+
+export default {
+  getAllUsers,
+  addNewUser,
+  getUserByEmail,
+  getUserByEmailAndPassword,
 }
