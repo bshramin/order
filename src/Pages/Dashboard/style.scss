@@ -1,2 +1,12 @@
 .dashboard {
+  .header {
+    .btn {
+      &.selected {
+        background-color: grey;
+      }
+      &.logout-btn {
+        color: red;
+      }
+    }
+  }
 }
