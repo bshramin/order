@@ -21,14 +21,18 @@ export const addNewUser = async (
   }
 }
 
-export const getUserByEmail = (email: string) => {
-  axios.get(USERS_COLLECTION_URL + `?email=${email}`).then((res) => {
-    if (res.status == 200) {
-      return res.data
-    } else {
-      return null
-    }
-  })
+export const getUserByEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
+  const res = await axios.get(
+    USERS_COLLECTION_URL + `?email=${email}&password=${password}`
+  )
+  if (res.status == 200) {
+    return res.data
+  } else {
+    return null
+  }
 }
 
 // export const addNewUser = (email: string, name: string, password: string) => {

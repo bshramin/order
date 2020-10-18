@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { login } from '../../../redux/user/actions'
-import { getAllUsers } from '../../../api/users'
+import { getUserByEmailAndPassword } from '../../../api/users'
+import { IUserStore } from '../../../redux/user/IStore'
 
 interface IRecipeProps {
   login: (email: string, password: string, id: string) => void
@@ -19,11 +20,13 @@ class Login extends React.Component<IRecipeProps, IRecipeState> {
     this.state = { email: '', name: '', password: '' }
   }
 
-  handleSignup = () => {
+  handleSignup = async () => {
     const { email, password } = this.state
-
-    // Log the user in
-    // this.props.login(email, password, id)
+    const user: IUserStore = await getUserByEmailAndPassword(email, password)
+    if (user) {
+      const { email, name, _id } = user
+      this.props.login(email, name, _id)
+    }
     // TODO: Push to dashboard
   }
 
