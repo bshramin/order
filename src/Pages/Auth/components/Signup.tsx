@@ -9,6 +9,7 @@ interface IRecipeProps {
 }
 
 interface IRecipeState {
+  formError: string
   email: string
   name: string
   password: string
@@ -17,7 +18,7 @@ interface IRecipeState {
 class Signup extends React.Component<IRecipeProps, IRecipeState> {
   constructor(props: any) {
     super(props)
-    this.state = { email: '', name: '', password: '' }
+    this.state = { formError: null, email: '', name: '', password: '' }
   }
 
   handleSignup = async () => {
@@ -35,14 +36,17 @@ class Signup extends React.Component<IRecipeProps, IRecipeState> {
       <div className='auth-component signup'>
         <div className='title'>Signup</div>
         <input
+          placeholder='Email'
           onChange={(e) => this.setState({ email: e.target.value })}
           value={this.state.email}
         />
         <input
+          placeholder='Name'
           onChange={(e) => this.setState({ name: e.target.value })}
           value={this.state.name}
         />
         <input
+          placeholder='Password'
           onChange={(e) => this.setState({ password: e.target.value })}
           value={this.state.password}
         />

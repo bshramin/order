@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { USERS_COLLECTION_URL } from './consts'
+var md5 = require('md5')
 
 export const getAllUsers = () => {
   axios.get(USERS_COLLECTION_URL).then((res) => {
@@ -13,8 +14,12 @@ export const addNewUser = async (
   name: string,
   password: string
 ) => {
-  const res = await axios.post(USERS_COLLECTION_URL, { email, name, password })
-  if (res.status == 200) {
+  const res = await axios.post(USERS_COLLECTION_URL, {
+    email,
+    name,
+    password: md5(password),
+  })
+  if (res.status === 200) {
     return res.data
   } else {
     return null
@@ -26,23 +31,11 @@ export const getUserByEmailAndPassword = async (
   password: string
 ) => {
   const res = await axios.get(
-    USERS_COLLECTION_URL + `?email=${email}&password=${password}`
+    USERS_COLLECTION_URL + `?email=${email}&password=${md5(password)}`
   )
-  if (res.status == 200) {
+  if (res.status === 200) {
     return res.data
   } else {
     return null
   }
 }
-
-// export const addNewUser = (email: string, name: string, password: string) => {
-//   let users: {
-//     [email: string]: { email: string; name: string; password: string }
-//   } = getAllUsers()
-//   console.log('got users: ', users)
-//   if (!users[email]) {
-//     users[email] = { email, name, password }
-//   }
-// }
-
-// export const getUserByEmail = (email: string) => {}

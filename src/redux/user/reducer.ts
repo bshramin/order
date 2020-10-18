@@ -1,6 +1,7 @@
 import { LOGIN, LOGOUT } from './constants'
+import { IUserStore } from './IStore'
 
-const initialState = {
+const initialState: IUserStore = {
   email: null,
   name: null,
   _id: null,
